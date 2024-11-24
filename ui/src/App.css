@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  height: 100vh;
+  background-color: #171717;
+}
+
+.input-container {
+  z-index: 1000;
+}
