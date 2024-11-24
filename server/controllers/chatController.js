@@ -7,14 +7,20 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-export async function getGroqChatCompletion() {
-  return groq.chat.completions.create({
-    messages: [
-      {
-        role: "user",
-        content: "what is an API?",
-      },
-    ],
-    model: "llama3-8b-8192",
-  });
+export async function getGroqChatCompletion(message) {
+  try {
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+      model: "llama3-8b-8192",
+    });
+    return completion.choices[0]?.message?.content || "No response from Groq";
+  } catch (error) {
+    console.error("Error in Groq completion:", error);
+    throw error;
+  }
 }

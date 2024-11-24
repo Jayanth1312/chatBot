@@ -1,64 +1,88 @@
 import React, { PureComponent } from "react";
-import send from "../assets/arrow-up.svg";
+import { ArrowUp } from "lucide-react";
 import "../styles/chatInput.css";
 
-export default class chatInput extends PureComponent {
+export default class ChatInput extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      hasContent: false,
+      message: "",
+      rows: 1,
+      isLoading: false
     };
-    this.textareaRef = React.createRef();
   }
 
-  componentDidMount() {
-    this.adjustTextareaHeight();
-  }
-
-  adjustTextareaHeight = () => {
-    const textarea = this.textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "inherit";
-      const newHeight = Math.min(Math.max(textarea.scrollHeight, 44), 200);
-      textarea.style.height = `${newHeight}px`;
-
-      const text = textarea.value.trim();
-      const hasContent = text.length > 0;
-
-      this.setState({
-        hasContent: hasContent,
-      });
-    }
-  };
-
-  handleInput = (e) => {
-    this.adjustTextareaHeight();
+  handleInputChange = (e) => {
+    const message = e.target.value;
+    this.setState({ message });
+    this.adjustTextareaHeight(e.target);
   };
 
   handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      if (this.state.message.trim()) {
+        this.handleSendMessage();
+      }
     }
+  };
 
-    this.adjustTextareaHeight();
+  handleSendMessage = async () => {
+    const { message, isLoading } = this.state;
+    const { onSendMessage } = this.props;
+
+    if (!message.trim() || isLoading) return;
+
+    try {
+      this.setState({ isLoading: true });
+      
+      if (onSendMessage) {
+        await onSendMessage(message);
+      }
+
+      this.setState({ message: "", rows: 1 });
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  adjustTextareaHeight = (textarea) => {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+    const rows = Math.min(
+      Math.max(Math.ceil(textarea.scrollHeight / 24), 1),
+      5
+    );
+    this.setState({ rows });
   };
 
   render() {
-    const { hasContent } = this.state;
+    const { message, isLoading } = this.state;
+    const hasContent = message.trim().length > 0;
 
     return (
       <div className={`chat-container ${hasContent ? "has-content" : ""}`}>
         <textarea
-          ref={this.textareaRef}
-          placeholder="Hello - use '@' to mention a category"
           className="chat-input"
-          onInput={this.handleInput}
+          placeholder="Ask me anything..."
+          value={message}
+          onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
           rows={1}
+          disabled={isLoading}
         />
         <div className="button-container">
-          <button className="chat-button">
-            <img src={send} alt="send" />
+          <button
+            className="chat-button"
+            onClick={this.handleSendMessage}
+            disabled={!hasContent || isLoading}
+          >
+            <ArrowUp 
+              size={24} 
+              color={hasContent && !isLoading ? "#d4d4d4" : "#6b6b6b"}
+            />
           </button>
         </div>
       </div>

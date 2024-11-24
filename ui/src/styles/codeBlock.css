@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   padding: 12px 24px 12px 24px;
-  background-color: #292c35;
+  background: transparent;
   border-bottom: 1px solid #2a2a2a;
   border-radius: 12px 12px 0 0;
 }
@@ -40,14 +40,52 @@
   transition: background-color 0.2s;
 }
 
-.code-block-copy button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
 .main-code-block {
-  max-width: 700px;
-  min-width: 500px;
+  width: 600px;
   border: 1px solid #2a2a2a;
+  background-color: #2f2f2f;
   border-radius: 12px 12px 12px 12px;
   overflow: hidden;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .main-code-block {
+    width: 90%;
+    max-width: 600px;
+  }
+
+  .code-block-header {
+    padding: 10px 16px;
+  }
+
+  .code-block-language {
+    font-size: 13px;
+  }
+
+  .code-block-copy button {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-code-block {
+    width: 95%;
+  }
+
+  .code-block-header {
+    padding: 8px 12px;
+  }
+
+  .code-block-language {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+
+  .code-block-copy button {
+    font-size: 12px;
+    padding: 3px 5px;
+    gap: 4px;
+  }
 }

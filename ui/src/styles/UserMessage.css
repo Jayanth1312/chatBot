@@ -1,0 +1,19 @@
+.user-message {
+  font-family: "Inter", sans-serif;
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 20px 12px 20px;
+  margin: 0.5rem 0;
+  background-color: #2f2f2f;
+  border-radius: 12px;
+  max-width: 90%;
+  margin-left: auto;
+}
+
+.message-content {
+  color: #d4d4d4;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
