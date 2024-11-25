@@ -11,31 +11,29 @@ const GPTReply = ({ message }) => {
     try {
       await navigator.clipboard.writeText(message);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const components = {
-    code: ({node, inline, className, children, ...props}) => {
-      const match = /language-(\w+)/.exec(className || '');
-      const language = match ? match[1] : '';
-      
+    p: ({ children }) => {
+      return <p className="markdown-paragraph">{children}</p>;
+    },
+    code: ({ node, inline, className, children }) => {
+      const match = /language-(\w+)/.exec(className || "");
+      const language = match ? match[1] : "text";
+      const codeContent = String(children).replace(/\n$/, "");
+
+      // Return simple inline code for inline snippets
       if (inline) {
-        return (
-          <code className="inline-code" {...props}>
-            {children}
-          </code>
-        );
+        return <code className="inline-code">{codeContent}</code>;
       }
-      
-      return (
-        <CodeBlock language={language}>
-          {String(children).replace(/\n$/, '')}
-        </CodeBlock>
-      );
-    }
+
+      // Only use CodeBlock component for multiline code blocks
+      return <CodeBlock code={codeContent} language={language} />;
+    },
   };
 
   return (
@@ -49,7 +47,10 @@ const GPTReply = ({ message }) => {
         <ReactMarkdown components={components} className="markdown-content">
           {message}
         </ReactMarkdown>
-        <button className={`copy-button ${copied ? 'copied' : ''}`} onClick={handleCopy}>
+        <button
+          className={`copy-button ${copied ? "copied" : ""}`}
+          onClick={handleCopy}
+        >
           {copied ? (
             <>
               <Check size={16} color="#737373" /> Copied!

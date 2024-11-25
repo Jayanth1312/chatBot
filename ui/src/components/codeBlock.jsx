@@ -4,12 +4,12 @@ import { Clipboard, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import "../styles/codeBlock.css";
 
-export default function CodeBlock() {
+export default function CodeBlock({ code, language }) {
   const [copied, setCopied] = useState(false);
   const [fontSize, setFontSize] = useState("15px");
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(codeString);
+    navigator.clipboard.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -26,36 +26,20 @@ export default function CodeBlock() {
     };
 
     updateFontSize();
-
-      window.addEventListener('resize', updateFontSize);
-      
-    return () => window.removeEventListener('resize', updateFontSize);
+    window.addEventListener("resize", updateFontSize);
+    return () => window.removeEventListener("resize", updateFontSize);
   }, []);
-
-  const codeString = `# Define the numbers
-number1 = 5
-number2 = 7
-
-# Add the numbers
-sum = number1 + number2
-
-# Print the result
-print("The sum of", number1, "and", number2, "is:", sum)`;
 
   return (
     <div className="main-code-block">
       <div className="code-block-header">
         <div className="code-block-language">
-          <span>Python</span>
+          <span>{language}</span>
         </div>
         <div className="code-block-copy">
-          <button
-            className="chat-button"
-            onClick={handleCopy}
-            disabled={!codeString}
-          >
+          <button className="chat-button" onClick={handleCopy} disabled={!code}>
             {copied ? (
-              <Check size={16} color="#4ade80" />
+              <Check size={16} color="#d4d4d4" />
             ) : (
               <Clipboard size={16} />
             )}
@@ -64,7 +48,7 @@ print("The sum of", number1, "and", number2, "is:", sum)`;
         </div>
       </div>
       <SyntaxHighlighter
-        language="python"
+        language={language}
         style={atelierCaveDark}
         customStyle={{
           backgroundColor: "#17171c",
@@ -82,7 +66,7 @@ print("The sum of", number1, "and", number2, "is:", sum)`;
         }}
         className="syntax-highlighter"
       >
-        {codeString}
+        {code}
       </SyntaxHighlighter>
     </div>
   );

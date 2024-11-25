@@ -153,6 +153,20 @@
   color: #60a5fa;
 }
 
+.markdown-paragraph {
+  margin: 1rem 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.markdown-paragraph:first-child {
+  margin-top: 0;
+}
+
+.markdown-paragraph:last-child {
+  margin-bottom: 0;
+}
+
 .copy-button {
   margin-top: 20px;
   background: transparent;

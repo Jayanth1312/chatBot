@@ -80,8 +80,8 @@ export default class ChatInput extends PureComponent {
             disabled={!hasContent || isLoading}
           >
             <ArrowUp 
-              size={24} 
-              color={hasContent && !isLoading ? "#d4d4d4" : "#6b6b6b"}
+              size={24}
+              color={hasContent && !isLoading ? "#fff" : "#6b6b6b"}
             />
           </button>
         </div>
