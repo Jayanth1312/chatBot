@@ -40,7 +40,13 @@ export default class ChatInput extends PureComponent {
         await onSendMessage(message);
       }
 
-      this.setState({ message: "", rows: 1 });
+      // Reset both the message and the textarea height
+      this.setState({ message: "", rows: 1 }, () => {
+        const textarea = document.querySelector('.chat-input');
+        if (textarea) {
+          textarea.style.height = 'auto';
+        }
+      });
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -62,6 +68,8 @@ export default class ChatInput extends PureComponent {
     const { message, isLoading } = this.state;
     const hasContent = message.trim().length > 0;
 
+    console.log(hasContent, isLoading);
+
     return (
       <div className={`chat-container ${hasContent ? "has-content" : ""}`}>
         <textarea
@@ -81,7 +89,7 @@ export default class ChatInput extends PureComponent {
           >
             <ArrowUp 
               size={24}
-              color={hasContent && !isLoading ? "#fff" : "#6b6b6b"}
+              style={{ color: hasContent && !isLoading ? "#ffffff" : "#6b6b6b" }}
             />
           </button>
         </div>

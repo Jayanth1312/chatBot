@@ -15,76 +15,75 @@
   transition: all 0.4s ease-in-out;
   align-items: flex-end;
   z-index: 1000;
+}
+.chat-input {
+  width: 100%;
+  padding: 10px 10px 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 30px;
+  color: #d4d4d4;
+  font-size: 17px;
+  font-family: "Inter", sans-serif;
+  resize: none;
+  min-height: 44px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 24px;
+  transition: height 0.2s ease-in-out;
+}
 
-  .chat-input {
-    width: 100%;
-    padding: 10px 10px 10px 12px;
-    background: transparent;
-    border: none;
-    border-radius: 30px;
-    color: #d4d4d4;
-    font-size: 17px;
-    font-family: "Inter", sans-serif;
-    resize: none;
-    min-height: 44px;
-    max-height: 200px;
-    overflow-y: auto;
-    line-height: 24px;
-    transition: height 0.2s ease-in-out;
-  }
+.chat-input:focus {
+  outline: none;
+}
 
-  .chat-input:focus {
-    outline: none;
-  }
+.chat-input::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .chat-input::-webkit-scrollbar {
-    width: 8px;
-  }
+.chat-input::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-  .chat-input::-webkit-scrollbar-track {
-    background: transparent;
-  }
+.chat-input::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 4px;
+}
 
-  .chat-input::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
-    border-radius: 4px;
-  }
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 44px;
+  height: 100%;
+}
 
-  .button-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 44px;
-    height: 100%;
-  }
+.chat-button {
+  background: transparent;
+  padding: 10px 10px 10px 0;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .chat-button {
-    background: transparent;
-    padding: 10px 10px 10px 0;
-    border: none;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.chat-button:disabled {
+  cursor: not-allowed;
+}
 
-  .chat-button:disabled {
-    cursor: not-allowed;
-  }
+.chat-button:focus {
+  outline: none;
+}
 
-  .chat-button:focus {
-    outline: none;
-  }
+.has-content .chat-button {
+  opacity: 1;
+}
 
-  .has-content .chat-button {
-    opacity: 1;
-  }
-
-  .chat-button {
-    opacity: 0.5;
-    transition: opacity 0.2s ease-in-out;
-  }
+.chat-button {
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .chat-container:focus-within:not(.has-content) {

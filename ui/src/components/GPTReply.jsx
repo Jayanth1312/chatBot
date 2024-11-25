@@ -22,18 +22,38 @@ const GPTReply = ({ message }) => {
       return <p className="markdown-paragraph">{children}</p>;
     },
     code: ({ node, inline, className, children }) => {
-      const match = /language-(\w+)/.exec(className || "");
-      const language = match ? match[1] : "text";
       const codeContent = String(children).replace(/\n$/, "");
 
-      // Return simple inline code for inline snippets
+      // Handle inline code
       if (inline) {
         return <code className="inline-code">{codeContent}</code>;
       }
 
-      // Only use CodeBlock component for multiline code blocks
-      return <CodeBlock code={codeContent} language={language} />;
+      // For code blocks, first check if it's a single line without language
+      if (!className && !codeContent.includes("\n")) {
+        return <code className="inline-code">{codeContent}</code>;
+      }
+
+      // Extract language from className or detect it
+      const match = /language-(\w+)/.exec(className || "");
+      const language = match ? match[1] : detectLanguage(codeContent);
+
+      return (
+        <div className="code-block-wrapper">
+          <CodeBlock code={codeContent} language={language} />
+        </div>
+      );
     },
+  };
+
+  const detectLanguage = (code) => {
+    if (code.includes('<?php')) return 'php';
+    if (code.includes('<!DOCTYPE html') || code.includes('<html') || /<\/?[a-z][\s\S]*>/i.test(code)) return 'html';
+    if (code.includes('import ') && code.includes('from ') && (code.includes(';') || code.includes('='))) return 'javascript';
+    if (code.includes('def ') || code.includes('import ') || code.includes('print(')) return 'python';
+    if (code.includes('{') && code.includes('}') && (code.includes('const ') || code.includes('let '))) return 'javascript';
+    if (code.includes('function') && code.includes('{')) return 'javascript';
+    return 'plaintext';
   };
 
   return (

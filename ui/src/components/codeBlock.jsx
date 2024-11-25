@@ -1,8 +1,47 @@
+import React, { useState, useEffect } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atelierCaveDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Clipboard, Check } from "lucide-react";
-import { useState, useEffect } from "react";
 import "../styles/codeBlock.css";
+
+const languageMap = {
+  js: "javascript",
+  jsx: "javascript",
+  ts: "typescript",
+  tsx: "typescript",
+  py: "python",
+  rb: "ruby",
+  java: "java",
+  cpp: "cpp",
+  c: "c",
+  cs: "csharp",
+  php: "php",
+  html: "xml",
+  css: "css",
+  json: "json",
+  yaml: "yaml",
+  md: "markdown",
+  sql: "sql",
+  sh: "bash",
+  sass: "scss",
+  scss: "scss",
+  bash: "bash",
+  plaintext: "plaintext",
+  text: "plaintext",
+  go: "go",
+  rust: "rust",
+  scala: "scala",
+  swift: "swift",
+  r: "r",
+  matlab: "matlab",
+  typescript: "typescript",
+  pascal: "pascal",
+  delphi: "delphi",
+  haskell: "haskell",
+  fsharp: "fsharp",
+  vbnet: "vbnet",
+  visualbasicnet: "vbnet",
+};
 
 export default function CodeBlock({ code, language }) {
   const [copied, setCopied] = useState(false);
@@ -48,12 +87,14 @@ export default function CodeBlock({ code, language }) {
         </div>
       </div>
       <SyntaxHighlighter
-        language={language}
-        style={atelierCaveDark}
+        language={language.toLowerCase()}
+        style={atomOneDark}
         customStyle={{
           backgroundColor: "#17171c",
           padding: "24px",
           fontSize: fontSize,
+          fontFamily:
+            '"Geist Mono", "Menlo", "Monaco", "Courier New", monospace',
         }}
         wrapLongLines={true}
         showLineNumbers={true}

@@ -71,7 +71,7 @@ export default function App() {
         <ChatInput onSendMessage={handleSendMessage} />
       </div>
       <footer>
-        <p style={{fontFamily:"inherit"}}>AI powered by Groq can make mistakes</p>
+        <p style={{fontFamily:"inherit"}}>AI powered by Groq can make mistakes. Please use with caution.</p>
       </footer>
     </div>
   );
