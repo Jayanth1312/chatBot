@@ -7,45 +7,75 @@ import "../styles/codeBlock.css";
 const languageMap = {
   js: "javascript",
   jsx: "javascript",
+  javascript: "javascript",
   ts: "typescript",
   tsx: "typescript",
+  typescript: "typescript",
   py: "python",
-  rb: "ruby",
+  python: "python",
   java: "java",
   cpp: "cpp",
+  "c++": "cpp",
   c: "c",
-  cs: "csharp",
-  php: "php",
-  html: "xml",
+  cs: "c#",
+  csharp: "c#",
+  "c#": "c#",
+  html: "html",
+  xml: "xml",
   css: "css",
   json: "json",
   yaml: "yaml",
+  yml: "yaml",
   md: "markdown",
+  markdown: "markdown",
   sql: "sql",
+  mysql: "sql",
+  postgresql: "sql",
   sh: "bash",
+  bash: "bash",
+  shell: "bash",
+  zsh: "bash",
   sass: "scss",
   scss: "scss",
-  bash: "bash",
-  plaintext: "plaintext",
-  text: "plaintext",
   go: "go",
+  golang: "go",
   rust: "rust",
   scala: "scala",
   swift: "swift",
   r: "r",
   matlab: "matlab",
-  typescript: "typescript",
   pascal: "pascal",
   delphi: "delphi",
   haskell: "haskell",
   fsharp: "fsharp",
+  fs: "fsharp",
+  vb: "vbnet",
   vbnet: "vbnet",
-  visualbasicnet: "vbnet",
+  visualbasic: "vbnet",
+  plaintext: "plaintext",
+  text: "plaintext",
+  txt: "plaintext",
+  plain: "plaintext",
 };
 
 export default function CodeBlock({ code, language }) {
   const [copied, setCopied] = useState(false);
   const [fontSize, setFontSize] = useState("15px");
+
+  const getLanguage = (lang) => {
+    if (!lang) return "plaintext";
+
+    const cleanLang = lang.toLowerCase().trim().replace(/^\./, "");
+
+    const mappedLanguage = languageMap[cleanLang];
+
+    return mappedLanguage || cleanLang || "plaintext";
+  };
+
+  const displayLanguage = (lang) => {
+    const detected = getLanguage(lang);
+    return detected.charAt(0).toUpperCase() + detected.slice(1);
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -69,11 +99,13 @@ export default function CodeBlock({ code, language }) {
     return () => window.removeEventListener("resize", updateFontSize);
   }, []);
 
+  const detectedLanguage = getLanguage(language);
+
   return (
     <div className="main-code-block">
       <div className="code-block-header">
         <div className="code-block-language">
-          <span>{language}</span>
+          <span>{displayLanguage(language)}</span>
         </div>
         <div className="code-block-copy">
           <button className="chat-button" onClick={handleCopy} disabled={!code}>
@@ -87,7 +119,7 @@ export default function CodeBlock({ code, language }) {
         </div>
       </div>
       <SyntaxHighlighter
-        language={language.toLowerCase()}
+        language={detectedLanguage}
         style={atomOneDark}
         customStyle={{
           backgroundColor: "#17171c",

@@ -12,11 +12,136 @@
   overflow: hidden;
 }
 
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 72vh;
+  text-align: center;
+}
+
+.empty-state h1 {
+  font-size: 32px;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #e2e2e2;
+}
+
+.empty-state p {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 32px;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.suggestion-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #2f2f2f;
+  color: #d4d4d4;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.suggestion-button svg {
+  transition: color 0.2s ease;
+}
+
+.suggestion-button:hover {
+  background-color: #2f2f2f;
+}
+
+.suggestion-button:hover svg {
+  color: #d4d4d4;
+}
+
+.icon-blue svg {
+  color: #3b82f6;
+}
+
+.icon-yellow svg {
+  color: #eab308;
+}
+
+.icon-purple svg {
+  color: #8b5cf6;
+}
+
+.icon-red svg {
+  color: #ef4444;
+}
+
+.icon-green svg {
+  color: #22c55e;
+}
+
+.icon-orange svg {
+  color: #f97316;
+}
+
+.icon-blue:hover svg {
+  color: #60a5fa;
+}
+
+.icon-yellow:hover svg {
+  color: #facc15;
+}
+
+.icon-purple:hover svg {
+  color: #a78bfa;
+}
+
+.icon-red:hover svg {
+  color: #f87171;
+}
+
+.icon-green:hover svg {
+  color: #4ade80;
+}
+
+.icon-orange:hover svg {
+  color: #fb923c;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 .messages-container {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #2a2a2a transparent;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .messages-container::-webkit-scrollbar {
@@ -52,11 +177,11 @@
 }
 
 footer {
-  font-size: 12px;
-  font-family: "Inter", sans-serif !important;
-  color: #6b6b6b;
   text-align: center;
-  padding: 8px;
+  font-family: "Inter", sans-serif !important;
+  padding: 12px;
+  color: #6b6b6b;
+  font-size: 12px;
 }
 
 .loading-indicator {
@@ -71,7 +196,8 @@ footer {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -93,6 +219,14 @@ footer {
   footer {
     font-size: 11px;
     padding: 6px;
+  }
+
+  .app-container {
+    padding: 12px;
+  }
+
+  .empty-state h1 {
+    font-size: 20px;
   }
 }
 

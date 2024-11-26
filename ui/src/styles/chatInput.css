@@ -8,7 +8,7 @@
   display: inline-flex;
   gap: 8px;
   background-color: #2f2f2f;
-  border-radius: 12px;
+  border-radius: 30px;
   max-width: 496px;
   width: 100%;
   padding: 5px;
@@ -18,7 +18,7 @@
 }
 .chat-input {
   width: 100%;
-  padding: 10px 10px 10px 12px;
+  padding: 10px 10px 10px 16px;
   background: transparent;
   border: none;
   border-radius: 30px;
@@ -83,15 +83,15 @@
 
 .chat-button {
   opacity: 0.5;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out
 }
 
 .chat-container:focus-within:not(.has-content) {
-  max-width: 720px;
+  max-width: 760px;
 }
 
 .chat-container.has-content {
-  max-width: 720px;
+  max-width: 760px;
 }
 
 ::placeholder {

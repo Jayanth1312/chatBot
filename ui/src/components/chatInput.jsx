@@ -40,7 +40,6 @@ export default class ChatInput extends PureComponent {
         await onSendMessage(message);
       }
 
-      // Reset both the message and the textarea height
       this.setState({ message: "", rows: 1 }, () => {
         const textarea = document.querySelector('.chat-input');
         if (textarea) {

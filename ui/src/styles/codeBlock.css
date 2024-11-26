@@ -18,6 +18,10 @@
   background: transparent;
   border-bottom: 1px solid #2a2a2a;
   border-radius: 12px 12px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #17171c;
 }
 
 .code-block-language {
@@ -51,7 +55,7 @@
 }
 
 .main-code-block {
-  width: 100%;
+  width: 700px;
   border: 1px solid #2a2a2a;
   background-color: #17171c;
   border-radius: 12px;
@@ -61,12 +65,28 @@
 
 .syntax-highlighter {
   margin: 0 !important;
-  padding: 16px 24px !important;
+  padding: 24px 24px !important;
   background-color: #17171c !important;
   border-radius: 0 0 12px 12px;
+  overflow-x: auto !important;
+  white-space: pre !important;
 }
 
-/* Responsive styles */
+.syntax-highlighter::-webkit-scrollbar {
+  width: 4px;
+  background-color: transparent;
+}
+
+.syntax-highlighter::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 2px;
+}
+
+.syntax-highlighter code {
+  white-space: pre !important;
+  word-wrap: normal !important;
+}
+
 @media screen and (max-width: 768px) {
   .code-block-header {
     padding: 10px 16px;
