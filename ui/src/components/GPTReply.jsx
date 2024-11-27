@@ -49,29 +49,29 @@ const GPTReply = ({ message }) => {
   };
 
   const detectLanguage = (code) => {
-    if (code.includes('<?php')) return 'php';
-    if (/<\/?[a-z][\s\S]*>/i.test(code)) return 'html';
-    if (/import\s+.*\s+from/.test(code)) return 'javascript';
-    if (/def\s+\w+\s*\(|import\s+\w+|print\s*\(/.test(code)) return 'python';
-    if (/\b(const|let)\s+\w+\s*=/.test(code)) return 'javascript';
-    if (/\bfunction\s+\w+\s*\(.*\)\s*{/.test(code)) return 'javascript';
-    if (/public\s+class\s+\w+/.test(code)) return 'java';
-    if (/^#include\s+<\w+\.h>/.test(code)) return 'cpp';
-    if (/^using\s+System;/.test(code)) return 'c#';
-    if (/^<\?xml/.test(code)) return 'xml';
-    if (/^@import/.test(code)) return 'scss';
-    if (/^package\s+main/.test(code)) return 'go';
-    if (/^fn\s+main/.test(code)) return 'rust';
-    if (/^object\s+\w+/.test(code)) return 'scala';
-    if (/^import\s+Foundation/.test(code)) return 'swift';
-    if (/^library\(.*\)/.test(code)) return 'r';
-    if (/^function\s+\w+/.test(code)) return 'matlab';
-    if (/^program\s+\w+;/.test(code)) return 'pascal';
-    if (/^unit\s+\w+;/.test(code)) return 'delphi';
-    if (/^module\s+\w+/.test(code)) return 'haskell';
-    if (/^open\s+System/.test(code)) return 'fsharp';
-    if (/^Imports\s+System/.test(code)) return 'vbnet';
-    return 'plaintext';
+    if (code.includes("<?php")) return "php";
+    if (/<\/?[a-z][\s\S]*>/i.test(code)) return "html";
+    if (/import\s+.*\s+from/.test(code)) return "javascript";
+    if (/def\s+\w+\s*\(|import\s+\w+|print\s*\(/.test(code)) return "python";
+    if (/\b(const|let)\s+\w+\s*=/.test(code)) return "javascript";
+    if (/\bfunction\s+\w+\s*\(.*\)\s*{/.test(code)) return "javascript";
+    if (/public\s+class\s+\w+/.test(code)) return "java";
+    if (/^#include\s+<\w+\.h>/.test(code)) return "cpp";
+    if (/^using\s+System;/.test(code)) return "c#";
+    if (/^<\?xml/.test(code)) return "xml";
+    if (/^@import/.test(code)) return "scss";
+    if (/^package\s+main/.test(code)) return "go";
+    if (/^fn\s+main/.test(code)) return "rust";
+    if (/^object\s+\w+/.test(code)) return "scala";
+    if (/^import\s+Foundation/.test(code)) return "swift";
+    if (/^library\(.*\)/.test(code)) return "r";
+    if (/^function\s+\w+/.test(code)) return "matlab";
+    if (/^program\s+\w+;/.test(code)) return "pascal";
+    if (/^unit\s+\w+;/.test(code)) return "delphi";
+    if (/^module\s+\w+/.test(code)) return "haskell";
+    if (/^open\s+System/.test(code)) return "fsharp";
+    if (/^Imports\s+System/.test(code)) return "vbnet";
+    return "plaintext";
   };
 
   return (

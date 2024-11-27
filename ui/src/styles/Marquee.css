@@ -1,3 +1,7 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
 .marquee-row {
   position: relative;
   width: 100%;
@@ -37,7 +41,6 @@
   white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: "Inter", sans-serif;
 }
 
 .marquee-suggestion:hover {
