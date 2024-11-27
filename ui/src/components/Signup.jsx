@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Mail, Lock, ArrowRight, Eye, EyeOff, User } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
-import "../styles/Signup.css";
+import "../styles/auth.css";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,9 +66,10 @@ export default function Signup() {
             style={{
               fontFamily: "Inter, sans-serif",
               fontSize: "28px",
-              marginBottom: "12px",
+              marginBottom: "8px",
               color: "white",
               fontWeight: "600",
+              textAlign: "center"
             }}
           >
             Create an account!
@@ -74,12 +77,49 @@ export default function Signup() {
           <span
             style={{
               color: "#6b6b6b",
-              textAlign: "center",
               fontFamily: "Inter, sans-serif",
+              textAlign: "center"
             }}
           >
             Sign up to explore the world of AI
           </span>
+        </div>
+        <div className="social-login">
+          <button type="button" className="google-button">
+            <FontAwesomeIcon icon={faGoogle} size="lg" />
+            Google
+          </button>
+          <button type="button" className="github-button">
+            <FontAwesomeIcon icon={faGithub} size="lg" />
+            Github
+          </button>
+        </div>
+        <div style={{ 
+          width: "95%",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          margin: "20px 0"
+        }}>
+          <hr style={{ 
+            flex: 1,
+            border: "none",
+            borderTop: "1.5px solid #6b6b6b"
+          }} />
+          <span style={{ 
+            color: "#6b6b6b", 
+            fontFamily: "Inter, sans-serif",
+            fontSize: "14px",
+            whiteSpace: "nowrap",
+            padding: "0 10px"
+          }}>
+            OR CONTINUE WITH
+          </span>
+          <hr style={{ 
+            flex: 1,
+            border: "none",
+            borderTop: "1.5px solid #6b6b6b"
+          }}/>
         </div>
         <div className="input-container">
           <div className="label">Username</div>
@@ -97,7 +137,7 @@ export default function Signup() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onBlur={() => setIsUsernameTouched(true)}
-              placeholder="Enter your username"
+              placeholder="John Doe"
               required
             />
           </div>
@@ -118,7 +158,7 @@ export default function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => setIsEmailTouched(true)}
-              placeholder="Enter your email"
+              placeholder="name@example.com"
               required
             />
           </div>
@@ -139,7 +179,7 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur={() => setIsPasswordTouched(true)}
-              placeholder="Enter your password"
+              placeholder=""
               required
             />
             <div
@@ -154,16 +194,9 @@ export default function Signup() {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          disabled={!isFormValid}
-          style={{
-            opacity: isFormValid ? 1 : 0.5,
-            cursor: isFormValid ? "pointer" : "not-allowed",
-          }}
-        >
+        <button type="submit" disabled={!isFormValid}>
           Sign up
-          <ArrowRight size={22} style={{ color: "#6b6b6b" }} />
+          <ArrowRight size={22} style={{ color: isFormValid ? "#171717" : "#6b6b6b" }} />
         </button>
         <div
           style={{
@@ -173,6 +206,7 @@ export default function Signup() {
           }}
         >
           Already have an account?{" "}
+
           <Link
             to="/login"
             style={{

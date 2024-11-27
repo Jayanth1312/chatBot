@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
-import "../styles/Login.css";
+import "../styles/auth.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,9 +54,10 @@ export default function Login() {
             style={{
               fontFamily: "Inter, sans-serif",
               fontSize: "28px",
-              marginBottom: "12px",
+              marginBottom: "8px",
               color: "white",
               fontWeight: "600",
+              textAlign: "center"
             }}
           >
             Welcome back explorer!
@@ -68,6 +71,43 @@ export default function Login() {
           >
             Login to enter the world of AI
           </span>
+        </div>
+        <div className="social-login">
+          <button type="button" className="google-button">
+            <FontAwesomeIcon icon={faGoogle} size="lg" />
+            Google
+          </button>
+          <button type="button" className="github-button">
+            <FontAwesomeIcon icon={faGithub} size="lg" />
+            Github
+          </button>
+        </div>
+        <div style={{ 
+          width: "95%",
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          margin: "20px 0"
+        }}>
+          <hr style={{ 
+            flex: 1,
+            border: "none",
+            borderTop: "1.5px solid #6b6b6b"
+          }} />
+          <span style={{ 
+            color: "#6b6b6b", 
+            fontFamily: "Inter, sans-serif",
+            fontSize: "14px",
+            whiteSpace: "nowrap",
+            padding: "0 10px"
+          }}>
+            OR CONTINUE WITH
+          </span>
+          <hr style={{ 
+            flex: 1,
+            border: "none",
+            borderTop: "1.5px solid #6b6b6b"
+          }}/>
         </div>
         <div className="input-container">
           <div className="label">Email</div>
@@ -85,7 +125,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => setIsEmailTouched(true)}
-              placeholder="Enter your email"
+              placeholder="name@example.com"
               required
             />
           </div>
@@ -106,7 +146,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur={() => setIsPasswordTouched(true)}
-              placeholder="Enter your password"
+              placeholder=""
               required
             />
             <div
