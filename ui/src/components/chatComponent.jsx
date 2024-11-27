@@ -64,7 +64,7 @@ function ChatComponent() {
   };
 
   return (
-    <div className="App">
+    <div className="chat-component">
       <div className="messages-container">
         {messages.length === 0 ? (
           <div className="empty-state">
