@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Copy, Check } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMeteor } from "@fortawesome/free-solid-svg-icons";
+import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import CodeBlock from "./codeBlock";
 import "../styles/GPTReply.css";
 
@@ -77,7 +77,7 @@ const GPTReply = ({ message }) => {
   return (
     <div className="gpt-reply">
       <div className="gpt-icon">
-        <FontAwesomeIcon icon={faMeteor} size="xl" />
+        <FontAwesomeIcon icon={faBolt} size="xl" />
       </div>
       <div className="reply-content">
         <ReactMarkdown components={components} className="markdown-content">

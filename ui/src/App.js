@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import "./App.css";
+import Login from './components/Login';
+import Signup from './components/Signup';
 import ChatInput from "./components/chatInput";
 import UserMessage from "./components/UserMessage";
 import GPTReply from "./components/GPTReply";
-import { SquareTerminal, Bug, Gauge, PenLine, ScrollText, Lightbulb } from 'lucide-react'
-import "./App.css";
+import MarqueeSuggestion from "./components/Marquee";
 
-const API_URL = "http://localhost:3001";
-
-export default function App() {
+function App() {
   const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -19,102 +20,105 @@ export default function App() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isLoading]);
+  }, [messages]);
 
   const handleSendMessage = async (message) => {
-    try {
-      setIsLoading(true);
-      // Add user message immediately
-      setMessages(prev => [...prev, { type: 'user', content: message }]);
+    if (!message.trim()) return;
 
-      // Send message to API
-      const response = await fetch(`${API_URL}/chat`, {
-        method: 'POST',
+    const userMessage = {
+      type: "user",
+      content: message,
+    };
+
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setInputValue("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:8000/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ message }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      
+      const botMessage = {
+        type: "bot",
+        content: data.response,
+      };
 
-      setMessages(prev => [...prev, { type: 'gpt', content: data.message }]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
-      console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        type: 'gpt', 
-        content: 'Sorry, there was an error processing your request.' 
-      }]);
+      console.error("Error:", error);
+      const errorMessage = {
+        type: "bot",
+        content: "Sorry, I encountered an error. Please try again.",
+      };
+      setMessages((prevMessages) => [...prevMessages, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
-  };
-
-  const suggestions = [
-    { text: "Summarize text", icon: <ScrollText size={16} />, colorClass: "icon-blue" },
-    { text: "Explain a concept", icon: <Lightbulb size={16} />, colorClass: "icon-yellow" },
-    { text: "Write code", icon: <SquareTerminal size={16} />, colorClass: "icon-purple" },
-    { text: "Debug an error", icon: <Bug size={16} />, colorClass: "icon-red" },
-    { text: "Help me write", icon: <PenLine size={16} />, colorClass: "icon-green" },
-    { text: "Optimize code", icon: <Gauge size={16} />, colorClass: "icon-orange" }
-  ];
-
-  return (
+  const ChatComponent = () => (
     <div className="App">
       <div className="messages-container">
-        <div className="chat-window">
-          {messages.length === 0 ? (
-            <div className="empty-state">
-              <h1>What would you like to explore?</h1>
-              <p>AI powered by Groq</p>
-              <div className="suggestions">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    className={`suggestion-button ${suggestion.colorClass}`}
-                    onClick={() => handleSuggestionClick(suggestion.text)}
-                  >
-                    {suggestion.icon}
-                    <span>{suggestion.text}</span>
-                  </button>
-                ))}
-              </div>
+        {messages.length === 0 ? (
+          <div className="empty-state">
+            <h1>What would you like to explore?</h1>
+            <p>Here are some suggestions to get you started:</p>
+            <div className="marquee-container">
+              <MarqueeSuggestion />
             </div>
-          ) : (
-            <>
-              {messages.map((msg, index) => (
-                msg.type === 'user' ? (
-                  <UserMessage key={index} message={msg.content} />
-                ) : (
-                  <GPTReply key={index} message={msg.content} />
-                )
-              ))}
-            </>
+          </div>
+        ) : (
+          <>
+            {messages.map((msg, index) =>
+              msg.type === "user" ? (
+                <UserMessage key={index} message={msg.content} />
+              ) : (
+                <GPTReply key={index} message={msg.content} />
+              )
+            )}
+          </>
+        )}
+        <div className="chat-window">
+          {isLoading && (
+            <div className="loading-indicator">Let me fetch it for you...</div>
           )}
-          {isLoading && <div className="loading-indicator">Let me fetch it for you...</div>}
           <div ref={messagesEndRef} />
         </div>
       </div>
       <div className="input-container">
-        <ChatInput 
-          onSendMessage={handleSendMessage} 
+        <ChatInput
+          onSendMessage={handleSendMessage}
           value={inputValue}
           onChange={setInputValue}
           isLoading={isLoading}
         />
       </div>
       <footer>
-        <p style={{fontFamily:"inherit"}}>AI powered by Groq can make mistakes. Please use with caution.</p>
+        <p style={{ fontFamily: "inherit" }}>
+          AI powered by Groq can make mistakes. Please use with caution.
+        </p>
       </footer>
     </div>
   );
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/chat" element={<ChatComponent />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
 }
+
+export default App;

@@ -1,0 +1,76 @@
+.marquee-row {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+  animation: marqueeLeft 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #2f2f2f;
+  color: #d4d4d4;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.marquee-suggestion:hover {
+  background: #2f2f2f;
+}
+
+.icon-blue svg {
+  color: #3b82f6;
+}
+.icon-yellow svg {
+  color: #eab308;
+}
+.icon-purple svg {
+  color: #8b5cf6;
+}
+.icon-red svg {
+  color: #ef4444;
+}
+.icon-green svg {
+  color: #22c55e;
+}
+.icon-orange svg {
+  color: #f97316;
+}
+.icon-pink svg {
+  color: #ec4899;
+}
+.icon-cyan svg {
+  color: #06b6d4;
+}
+.icon-indigo svg {
+  color: #6366f1;
+}
+.icon-teal svg {
+  color: #14b8a6;
+}

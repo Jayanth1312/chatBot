@@ -1,5 +1,4 @@
 import React from 'react';
-import { Pencil } from 'lucide-react'
 import '../styles/UserMessage.css';
 
 const UserMessage = ({ message }) => {
