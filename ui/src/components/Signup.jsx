@@ -72,7 +72,7 @@ export default function Signup() {
               textAlign: "center"
             }}
           >
-            Create an account!
+            Create your account!
           </p>
           <span
             style={{
