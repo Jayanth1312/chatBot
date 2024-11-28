@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebaseConfig";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { LogOut, Mail, User } from "lucide-react";
+import { LogOut, Mail, User, PanelLeft } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/chatComponent.css";
@@ -156,8 +156,9 @@ function ChatComponent() {
   return (
     <div className="chat-component">
       <div className="user-container">
+        <PanelLeft size={24} style={{ color: "#6b6b6b" }} />
         {user && (
-          <div className="user-profile">
+          <div className="user-profile" style={{ backgroundColor: "white" }}>
             <div className="profile-dropdown" ref={dropdownRef}>
               <div onClick={toggleDropdown}>
                 {user.photoURL ? (
@@ -206,7 +207,7 @@ function ChatComponent() {
         {messages.length === 0 ? (
           <div className="empty-state">
             <h1>
-              <FontAwesomeIcon icon={faBolt} size="sm" /> {" "}
+              <FontAwesomeIcon icon={faBolt} size="sm" />{" "}
               {user ? `${getGreeting()}, ${getUserDisplayName()}` : "Welcome"}
             </h1>
             <p>Here are some suggestions to get you started:</p>

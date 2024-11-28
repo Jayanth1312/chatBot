@@ -231,8 +231,11 @@ footer {
   text-align: left;
 }
 
+.logout-item:hover {
+  color: #f94e4e;
+}
 .dropdown-item:hover {
-  background-color: #474747;
+  background-color: #393939;
 }
 
 .sign-out-button {
