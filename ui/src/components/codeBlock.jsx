@@ -125,8 +125,6 @@ export default function CodeBlock({ code, language }) {
           backgroundColor: "#17171c",
           padding: "24px",
           fontSize: fontSize,
-          fontFamily:
-            '"Geist Mono", "Menlo", "Monaco", "Courier New", monospace',
         }}
         wrapLongLines={true}
         showLineNumbers={true}

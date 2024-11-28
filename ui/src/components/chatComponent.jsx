@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebaseConfig";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { LogOut, Mail, User, PanelLeft } from "lucide-react";
+import { LogOut, Mail, User, PanelLeft, CirclePlus} from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/chatComponent.css";
@@ -17,6 +17,7 @@ function ChatComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -153,99 +154,124 @@ function ChatComponent() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="chat-component">
-      <div className="user-container">
-        <PanelLeft size={24} style={{ color: "#6b6b6b" }} />
-        {user && (
-          <div className="user-profile" style={{ backgroundColor: "white" }}>
-            <div className="profile-dropdown" ref={dropdownRef}>
-              <div onClick={toggleDropdown}>
-                {user.photoURL ? (
-                  <img
-                    src={user.photoURL}
-                    alt="Profile"
-                    className="profile-image"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      setUser((prev) => ({ ...prev, photoURL: null }));
-                    }}
-                  />
-                ) : (
-                  <div className="profile-initial">
-                    {getInitial(getUserDisplayName())}
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        {/* Sidebar content will go here */}
+      </div>
+      <div className={`main-content ${isOpen ? 'shifted' : ''}`}>
+        <div
+          className="user-container"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div className="sidebar-container">
+            <button className="sidebar-button" onClick={toggleSidebar}>
+              <PanelLeft size={24} style={{ color: "#6b6b6b" }} />
+            </button>
+            <button className="new-chat-button">
+              <CirclePlus size={24} style={{ color: "#6b6b6b" }} />
+            </button>
+          </div>
+          {user && (
+            <div className="user-profile">
+              <div className="profile-dropdown" ref={dropdownRef}>
+                <div onClick={toggleDropdown}>
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="Profile"
+                      className="profile-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        setUser((prev) => ({ ...prev, photoURL: null }));
+                      }}
+                    />
+                  ) : (
+                    <div className="profile-initial">
+                      {getInitial(getUserDisplayName())}
+                    </div>
+                  )}
+                </div>
+                {isDropdownOpen && (
+                  <div className="dropdown-content">
+                    <div className="dropdown-item">
+                      {getUserInfo().isEmail ? (
+                        <Mail size={16} />
+                      ) : (
+                        <User size={16} />
+                      )}
+                      <span>{getUserInfo().displayText}</span>
+                    </div>
+                    <button
+                      className="dropdown-item logout-item"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSignOut();
+                      }}
+                    >
+                      <LogOut size={16} />
+                      <span>Logout</span>
+                    </button>
                   </div>
                 )}
               </div>
-              {isDropdownOpen && (
-                <div className="dropdown-content">
-                  <div className="dropdown-item">
-                    {getUserInfo().isEmail ? (
-                      <Mail size={16} />
-                    ) : (
-                      <User size={16} />
-                    )}
-                    <span>{getUserInfo().displayText}</span>
-                  </div>
-                  <button
-                    className="dropdown-item logout-item"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSignOut();
-                    }}
-                  >
-                    <LogOut size={16} />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              )}
             </div>
-          </div>
-        )}
-      </div>
-      <div className="messages-container">
-        {messages.length === 0 ? (
-          <div className="empty-state">
-            <h1>
-              <FontAwesomeIcon icon={faBolt} size="sm" />{" "}
-              {user ? `${getGreeting()}, ${getUserDisplayName()}` : "Welcome"}
-            </h1>
-            <p>Here are some suggestions to get you started:</p>
-            <div className="marquee-container">
-              <MarqueeSuggestion />
-            </div>
-          </div>
-        ) : (
-          <div className="messages">
-            {messages.map((msg, index) =>
-              msg.type === "user" ? (
-                <UserMessage key={index} message={msg.content} />
-              ) : (
-                <GPTReply key={index} message={msg.content} />
-              )
-            )}
-          </div>
-        )}
-        <div className="chat-window">
-          {isLoading && (
-            <div className="loading-indicator">Let me fetch it for you...</div>
           )}
-          <div ref={messagesEndRef} />
+        </div>
+        <div className="content-wrapper">
+          <div className="messages-container">
+            {messages.length === 0 ? (
+              <div className="empty-state">
+                <h1>
+                  <FontAwesomeIcon icon={faBolt} size="sm" />{" "}
+                  {user ? `${getGreeting()}, ${getUserDisplayName()}` : "Welcome"}
+                </h1>
+                <p>Here are some suggestions to get you started:</p>
+                <div className="marquee-container">
+                  <MarqueeSuggestion />
+                </div>
+              </div>
+            ) : (
+              <div className="messages">
+                {messages.map((msg, index) =>
+                  msg.type === "user" ? (
+                    <UserMessage key={index} message={msg.content} />
+                  ) : (
+                    <GPTReply key={index} message={msg.content} />
+                  )
+                )}
+              </div>
+            )}
+            <div className="chat-window">
+              {isLoading && (
+                <div className="loading-indicator">Let me fetch it for you...</div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+          <div className="input-container">
+            <ChatInput
+              onSendMessage={handleSendMessage}
+              value={inputValue}
+              onChange={setInputValue}
+              isLoading={isLoading}
+            />
+          </div>
+          {/* <footer>
+            <p style={{ fontFamily: "inherit" }}>
+              AI powered by Groq can make mistakes. Please use with caution.
+            </p>
+          </footer> */}
         </div>
       </div>
-      <div className="input-container">
-        <ChatInput
-          onSendMessage={handleSendMessage}
-          value={inputValue}
-          onChange={setInputValue}
-          isLoading={isLoading}
-        />
-      </div>
-      <footer>
-        <p style={{ fontFamily: "inherit" }}>
-          AI powered by Groq can make mistakes. Please use with caution.
-        </p>
-      </footer>
     </div>
   );
 }
