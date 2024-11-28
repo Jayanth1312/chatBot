@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebaseConfig";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { LogOut, Mail, User, PanelLeft, CirclePlus} from "lucide-react";
+import { LogOut, Mail, User, PanelLeft, CirclePlus } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/chatComponent.css";
@@ -18,6 +18,8 @@ function ChatComponent() {
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("groq");
+  const [isChatMode, setIsChatMode] = useState(false);
   const messagesEndRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ function ChatComponent() {
           ...currentUser,
           photoURL: currentUser.photoURL,
           displayName: currentUser.displayName,
-          email: currentUser.email
+          email: currentUser.email,
         });
       } else {
         navigate("/login");
@@ -55,11 +57,31 @@ function ChatComponent() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    // Add entry to browser history when entering chat mode
+    if (isChatMode) {
+      window.history.pushState({ isChatMode: true }, "");
+    }
+
+    // Handle browser back button and swipe
+    const handlePopState = (event) => {
+      if (isChatMode) {
+        setIsChatMode(false);
+        setMessages([]);
+        setInputValue("");
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isChatMode]);
 
   const handleSignOut = async () => {
     try {
@@ -73,6 +95,7 @@ function ChatComponent() {
   const handleSendMessage = async (message) => {
     if (!message.trim()) return;
 
+    setIsChatMode(true);
     const userMessage = {
       type: "user",
       content: message,
@@ -88,7 +111,7 @@ function ChatComponent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, model: selectedModel }),
       });
 
       if (!response.ok) {
@@ -136,17 +159,17 @@ function ChatComponent() {
 
   const getUserInfo = () => {
     if (!user) return { displayText: "", isEmail: false };
-    
+
     if (user.email && user.providerData[0]?.providerId !== "github.com") {
       return {
         displayText: user.email,
-        isEmail: true
+        isEmail: true,
       };
     }
-    
+
     return {
       displayText: getUserDisplayName(),
-      isEmail: false
+      isEmail: false,
     };
   };
 
@@ -158,27 +181,45 @@ function ChatComponent() {
     setIsOpen(!isOpen);
   };
 
+  const createNewChat = () => {
+    setMessages([]);
+    setInputValue("");
+    setIsLoading(false);
+    setIsChatMode(false); // Reset to home page
+  };
+
   return (
     <div className="chat-component">
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
         {/* Sidebar content will go here */}
       </div>
-      <div className={`main-content ${isOpen ? 'shifted' : ''}`}>
-        <div
-          className="user-container"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+      <div className={`main-content ${isOpen ? "shifted" : ""}`}>
+        <div className="user-container">
           <div className="sidebar-container">
             <button className="sidebar-button" onClick={toggleSidebar}>
               <PanelLeft size={24} style={{ color: "#6b6b6b" }} />
             </button>
-            <button className="new-chat-button">
+            <button className="new-chat-button" onClick={createNewChat}>
               <CirclePlus size={24} style={{ color: "#6b6b6b" }} />
             </button>
+            <div className="model-selector-group">
+              <button
+                className={`model-button ${
+                  selectedModel === "groq" ? "active" : ""
+                }`}
+                onClick={() => setSelectedModel("groq")}
+              >
+                Groq
+              </button>
+              <button
+                className={`model-button ${
+                  selectedModel === "gemini" ? "active" : ""
+                }`}
+                onClick={() => setSelectedModel("gemini")}
+              >
+                Gemini
+              </button>
+            </div>
           </div>
           {user && (
             <div className="user-profile">
@@ -228,7 +269,7 @@ function ChatComponent() {
         </div>
         <div className="content-wrapper">
           <div className="messages-container">
-            {messages.length === 0 ? (
+            {!isChatMode ? (
               <div className="empty-state">
                 <h1>
                   <FontAwesomeIcon icon={faBolt} size="sm" />{" "}
@@ -248,14 +289,12 @@ function ChatComponent() {
                     <GPTReply key={index} message={msg.content} />
                   )
                 )}
+                {isLoading && (
+                  <div className="loading-indicator">Let me fetch it for you...</div>
+                )}
+                <div ref={messagesEndRef} />
               </div>
             )}
-            <div className="chat-window">
-              {isLoading && (
-                <div className="loading-indicator">Let me fetch it for you...</div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
           </div>
           <div className="input-container">
             <ChatInput
@@ -265,11 +304,6 @@ function ChatComponent() {
               isLoading={isLoading}
             />
           </div>
-          {/* <footer>
-            <p style={{ fontFamily: "inherit" }}>
-              AI powered by Groq can make mistakes. Please use with caution.
-            </p>
-          </footer> */}
         </div>
       </div>
     </div>

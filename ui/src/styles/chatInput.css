@@ -123,11 +123,11 @@
 
   .chat-container .chat-input {
     font-size: 16px;
-    padding: 8px 8px 8px 10px;
+    padding: 10px;
   }
 
   .chat-container .chat-button {
-    padding: 8px 8px 8px 0;
+    padding: 10px;
   }
 
   ::placeholder {
@@ -143,7 +143,7 @@
 
   .chat-container .chat-input {
     font-size: 15px;
-    padding: 6px 6px 6px 8px;
+    padding: 10px;
     min-height: 40px;
   }
 
@@ -152,7 +152,7 @@
   }
 
   .chat-container .chat-button {
-    padding: 6px 6px 6px 0;
+    padding: 10px;
   }
 
   ::placeholder {

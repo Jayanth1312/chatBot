@@ -75,13 +75,14 @@
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  /* padding: 20px 20px 0 20px; */
   display: flex;
   flex-direction: column;
   min-height: 0;
+  transition: opacity 0.3s ease;
 }
 
 .chat-window {
+  padding: 50px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -91,22 +92,8 @@
 
 .input-container {
   width: 100%;
-  /* padding-bottom: 8px; */
   background-color: #171717;
 }
-
-/* footer {
-  width: 100%;
-  padding-bottom: 8px;
-  background-color: #171717;
-  text-align: center;
-} */
-
-/* footer p {
-  color: #6b6b6b;
-  font-size: 12px;
-  margin: 0;
-} */
 
 .empty-state {
   display: flex;
@@ -115,14 +102,15 @@
   justify-content: center;
   text-align: center;
   height: 80%;
-  /* padding: 0 20px; */
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 .empty-state h1 {
   font-size: 40px;
   font-family: "Baskervville", sans-serif;
   font-weight: 600;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   margin-bottom: 12px;
   color: #d4d4d4;
 }
@@ -148,6 +136,8 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 .loading-indicator {
@@ -165,7 +155,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -174,19 +165,15 @@
 }
 
 .user-container {
-  width: 100%;
-  padding: 12px 24px;
-  background-color: transparent;
-}
-
-.sidebar-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
+  padding: 16px;
 }
 
-.sidebar-button, .new-chat-button {
+.sidebar-button,
+.new-chat-button,
+.back-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -199,12 +186,43 @@
   transition: all 0.2s ease;
 }
 
-.sidebar-button:hover, .new-chat-button:hover {
+.sidebar-button:hover,
+.new-chat-button:hover,
+.back-button:hover {
   background-color: #2f2f2f;
 }
 
-.sidebar-button:hover svg, .new-chat-button:hover svg {
+.sidebar-button:hover svg,
+.new-chat-button:hover svg,
+.back-button:hover svg {
   color: #9b9b9b !important;
+}
+
+.sidebar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.new-chat-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.new-chat-button:hover {
+  background-color: #2c2c2c;
+}
+
+.new-chat-button:active {
+  background-color: #3c3c3c;
 }
 
 .user-profile {
@@ -325,6 +343,55 @@
   transform: translateX(0);
 }
 
+.model-selector-group {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #222;
+  border-radius: 8px;
+}
+
+.model-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.model-button:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.model-button.active {
+  background: #333;
+  color: #fff;
+}
+
+.model-selector {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border: 1px solid #3d3d3d;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.model-selector:hover {
+  background-color: #3d3d3d;
+}
+
+.model-selector:focus {
+  outline: none;
+  border-color: #4d4d4d;
+}
+
 @media screen and (max-width: 768px) {
   .chat-window {
     padding: 16px;
@@ -340,11 +407,11 @@
   }
 
   .empty-state h1 {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   .empty-state p {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .empty-state {
@@ -353,9 +420,9 @@
 }
 
 @media screen and (max-width: 480px) {
-  /* .chat-window {
+  .chat-window {
     padding: 12px;
-  } */
+  }
 
   .input-container {
     padding: 6px 6px 0 6px;
