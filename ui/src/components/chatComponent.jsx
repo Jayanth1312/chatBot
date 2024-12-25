@@ -18,7 +18,6 @@ function ChatComponent() {
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("groq");
   const [isChatMode, setIsChatMode] = useState(false);
   const messagesEndRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -111,7 +110,7 @@ function ChatComponent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message, model: selectedModel }),
+        body: JSON.stringify({ message }),
       });
 
       if (!response.ok) {
@@ -202,24 +201,6 @@ function ChatComponent() {
             <button className="new-chat-button" onClick={createNewChat}>
               <CirclePlus size={24} style={{ color: "#6b6b6b" }} />
             </button>
-            <div className="model-selector-group">
-              <button
-                className={`model-button ${
-                  selectedModel === "groq" ? "active" : ""
-                }`}
-                onClick={() => setSelectedModel("groq")}
-              >
-                Groq
-              </button>
-              <button
-                className={`model-button ${
-                  selectedModel === "gemini" ? "active" : ""
-                }`}
-                onClick={() => setSelectedModel("gemini")}
-              >
-                Gemini
-              </button>
-            </div>
           </div>
           {user && (
             <div className="user-profile">
