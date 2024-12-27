@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import "../styles/chatComponent.css";
 import ChatInput from "./chatInput";
-import UserMessage from "./UserMessage";
-import GPTReply from "./GPTReply";
-import MarqueeSuggestion from "./Marquee";
+import UserMessage from "./userMessage";
+import GPTReply from "./gptreply";
+import MarqueeSuggestion from "./marquee";
 
 function ChatComponent() {
   const [messages, setMessages] = useState([]);

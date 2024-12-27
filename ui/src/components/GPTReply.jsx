@@ -4,7 +4,7 @@ import { Copy, Check } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import CodeBlock from "./codeBlock";
-import "../styles/GPTReply.css";
+import "../styles/gptreply.css";
 
 const GPTReply = ({ message }) => {
   const [copied, setCopied] = useState(false);
