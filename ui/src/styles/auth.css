@@ -24,7 +24,7 @@ form {
 
   .social-login {
     display: flex;
-    width: 95%;
+    width: 100%;
     gap: 32px;
     justify-content: center;
     align-items: center;

@@ -145,7 +145,7 @@ export default function Signup() {
         </div>
         <div
           style={{
-            width: "95%",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             gap: "10px",

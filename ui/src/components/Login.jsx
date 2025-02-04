@@ -125,7 +125,7 @@ export default function Login() {
         </div>
         <div
           style={{
-            width: "95%",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             gap: "10px",
