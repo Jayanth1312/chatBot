@@ -12,7 +12,7 @@ export async function getGeminiChatCompletion(message) {
     }
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    
+
     if (!message || typeof message !== 'string') {
       throw new Error('Invalid message format');
     }
@@ -20,11 +20,11 @@ export async function getGeminiChatCompletion(message) {
     const result = await model.generateContent(message);
     const response = await result.response;
     const text = response.text();
-    
+
     if (!text) {
       throw new Error('Empty response from Gemini');
     }
-    
+
     return text;
   } catch (error) {
     console.error("Error in Gemini completion:", error.message);
