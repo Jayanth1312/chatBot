@@ -190,7 +190,6 @@ function ChatComponent() {
   return (
     <div className="chat-component">
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        {/* Sidebar content will go here */}
       </div>
       <div className={`main-content ${isOpen ? "shifted" : ""}`}>
         <div className="user-container">
@@ -256,10 +255,11 @@ function ChatComponent() {
                   <FontAwesomeIcon icon={faBolt} size="sm" />{" "}
                   {user ? `${getGreeting()}, ${getUserDisplayName()}` : "Welcome"}
                 </h1>
-                <p>Here are some suggestions to get you started:</p>
-                <div className="marquee-container">
+                {/* <p>Here are some suggestions to get you started:</p> */}
+                <p>Ask for any mental health suggestions</p>
+                {/* <div className="marquee-container">
                   <MarqueeSuggestion />
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="messages">

@@ -3,6 +3,7 @@ import "./App.css";
 import Login from "./components/login";
 import Signup from "./components/signup";
 import ChatComponent from "./components/chatComponent";
+import "./config/firebaseConfig"
 
 function App() {
   return (
